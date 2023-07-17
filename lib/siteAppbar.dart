@@ -24,22 +24,18 @@ class SiteAppbar extends StatelessWidget {
               return Container(
                 decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.6),
-                    border: const Border(
-                        bottom: BorderSide(color: Colors.black87, width: 0.3))),
+                    border: const Border(bottom: BorderSide(color: Colors.black87, width: 0.3))),
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Text(
                       'iPhone 14',
-                      style: TextStyle(
-                          fontFamily: 'SFPro',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
+                      style: TextStyle(fontFamily: 'SFPro', fontSize: 20, fontWeight: FontWeight.w600),
                     ),
                     if (size.width < 760)
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           Icon(
                             CupertinoIcons.chevron_down,
                             color: Colors.black87,
@@ -52,25 +48,19 @@ class SiteAppbar extends StatelessWidget {
                             label: Text(
                               'Buy',
                               style: TextStyle(
-                                  fontFamily: 'SFPro',
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
+                                  fontFamily: 'SFPro', color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                             ),
                             backgroundColor: Color(0xff2673de),
                           ),
                         ],
                       )
                     else
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           Text(
                             'Overview',
                             style: TextStyle(
-                                fontFamily: 'SFPro',
-                                color: Colors.black45,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                                fontFamily: 'SFPro', color: Colors.black45, fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                           SizedBox(
                             width: 24,
@@ -78,10 +68,7 @@ class SiteAppbar extends StatelessWidget {
                           Text(
                             'Switching to iPhone',
                             style: TextStyle(
-                                fontFamily: 'SFPro',
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                                fontFamily: 'SFPro', color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                           SizedBox(
                             width: 24,
@@ -89,10 +76,7 @@ class SiteAppbar extends StatelessWidget {
                           Text(
                             'Tech Specs',
                             style: TextStyle(
-                                fontFamily: 'SFPro',
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                                fontFamily: 'SFPro', color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
                           ),
                           SizedBox(
                             width: 24,
@@ -101,10 +85,7 @@ class SiteAppbar extends StatelessWidget {
                             label: Text(
                               'Buy',
                               style: TextStyle(
-                                  fontFamily: 'SFPro',
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
+                                  fontFamily: 'SFPro', color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
                             ),
                             backgroundColor: Color(0xff2673de),
                           ),

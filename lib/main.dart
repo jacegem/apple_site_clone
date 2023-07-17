@@ -3,10 +3,13 @@ import 'dart:ui';
 import 'package:apple_site_clone/contents/emergency.dart';
 import 'package:apple_site_clone/contents/revealIphones.dart';
 import 'package:apple_site_clone/contents/scrollVideoPlayer.dart';
+import 'package:apple_site_clone/my_controller.dart';
+import 'package:apple_site_clone/my_main.dart';
 import 'package:apple_site_clone/providers/scrollStatusNotifier.dart';
 import 'package:apple_site_clone/siteAppbar.dart';
 import 'package:apple_site_clone/utils/animCalculator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -23,12 +26,21 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     home: ChangeNotifierProvider.value(
+  //         value: scrollStatusNotifier, child: const MyHomePage(title: 'Flutter Demo Home Page')),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChangeNotifierProvider.value(
-          value: scrollStatusNotifier,
-          child: const MyHomePage(title: 'Flutter Demo Home Page')),
+    return GetMaterialApp(
+      home: const MyMain(),
+      initialBinding: BindingsBuilder(() {
+        Get.put(MyController());
+      }), //binding을 사용하여 의존성을 주입한다
     );
   }
 }
@@ -67,12 +79,10 @@ class _MyHomePageState extends State<MyHomePage> with AnimCalculator {
   }
 
   void changeBackgroundColor() {
-    if (backgroundColor == Colors.white &&
-        scrollStatusNotifier.scrollPercentage > 6.3) {
+    if (backgroundColor == Colors.white && scrollStatusNotifier.scrollPercentage > 6.3) {
       backgroundColor = Colors.black;
       setState(() {});
-    } else if (backgroundColor == Colors.black &&
-        scrollStatusNotifier.scrollPercentage < 6.1) {
+    } else if (backgroundColor == Colors.black && scrollStatusNotifier.scrollPercentage < 6.1) {
       backgroundColor = Colors.white;
       setState(() {});
     }
@@ -118,8 +128,7 @@ class _MyHomePageState extends State<MyHomePage> with AnimCalculator {
                   ScrollVideoPlayer(size: _size!),
                   SingleChildScrollView(
                     controller: _scrollController,
-                    physics:
-                        fadeIn ? null : const NeverScrollableScrollPhysics(),
+                    physics: fadeIn ? null : const NeverScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -148,21 +157,23 @@ class _MyHomePageState extends State<MyHomePage> with AnimCalculator {
   Consumer<ScrollStatusNotifier> buildTitle() {
     return Consumer<ScrollStatusNotifier>(
       builder: (context, ssn, child) {
-        final portionValue = AnimCalculator.convertToZeroToOne(
-            scrollPercentage: ssn.scrollPercentage, from: 0, to: 0.45);
+        final portionValue =
+            AnimCalculator.convertToZeroToOne(scrollPercentage: ssn.scrollPercentage, from: 0, to: 0.45);
+
+        debugPrint("ssn.scrollPos: ${ssn.scrollPos}");
+        debugPrint("portionValue: $portionValue");
+        debugPrint("ssn.scrollPercentage: ${ssn.scrollPercentage}");
 
         final opacity = -pow(portionValue, 6) + 1;
         return Transform.translate(
-            offset:
-                Offset(0, -ssn.scrollPos + ssn.scrollPos * 0.3 * portionValue),
+            offset: Offset(0, -ssn.scrollPos + ssn.scrollPos * 0.3 * portionValue),
             child: Center(
               child: Opacity(
                   opacity: opacity.toDouble(),
                   child: SizedBox(
                     width: _size!.width,
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: _size!.width * 0.2),
+                      padding: EdgeInsets.symmetric(horizontal: _size!.width * 0.2),
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: GradientText(
@@ -174,10 +185,7 @@ class _MyHomePageState extends State<MyHomePage> with AnimCalculator {
                             Color(0xffe668a5),
                             Color(0xffdd514a),
                           ],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'SFPro',
-                              color: Colors.black),
+                          style: const TextStyle(fontWeight: FontWeight.w500, fontFamily: 'SFPro', color: Colors.black),
                           maxLines: 1,
                         ),
                       ),
@@ -195,12 +203,10 @@ class _MyHomePageState extends State<MyHomePage> with AnimCalculator {
       seconds = 0.1;
     }
     return _scrollController.animateTo(scrollHeight!,
-        duration: Duration(milliseconds: (seconds * 1000).toInt()),
-        curve: Curves.linear);
+        duration: Duration(milliseconds: (seconds * 1000).toInt()), curve: Curves.linear);
   }
 
   Future<void> goBackToTop() {
-    return _scrollController.animateTo(0,
-        duration: const Duration(seconds: 2), curve: Curves.easeInOutCubic);
+    return _scrollController.animateTo(0, duration: const Duration(seconds: 2), curve: Curves.easeInOutCubic);
   }
 }
